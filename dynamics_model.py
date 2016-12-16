@@ -72,30 +72,33 @@ class DynamicsModel(object):
 
     def physics_loop(self):
         while True:
-            if not self.stopped:
-                time_til_calc = self.next_iterate - datetime.datetime.now()
-                if time_til_calc > self.zero_timedelta:
-                    time.sleep(time_til_calc.microseconds / 1000000.0)
-                    #Assuming less than a second.
-                self.next_iterate = self.next_iterate + self.delay_100Hz
+            time_til_calc = self.next_iterate - datetime.datetime.now()
+            if time_til_calc > self.zero_timedelta:
+                time.sleep(time_til_calc.microseconds / 1000000.0)
+                #Assuming less than a second.
+            self.next_iterate = self.next_iterate + self.delay_100Hz
 
-                new_snapshot = {}
-                for data in self.calculations:
+            new_snapshot = {}
+            for data in self.calculations:
+                if not self.stopped:
                     data.iterate(self.snapshot)
-                    new_snapshot[data.name] = data.get()
+                else:
+                    data.last_calc = self.next_iterate
+                new_snapshot[data.name] = data.get()
                     
-                # Store the latest user input...
-                new_snapshot['accelerator_pedal_position'] = self.accelerator
-                new_snapshot['brake'] = self.brake
-                new_snapshot['steering_wheel_angle'] = self.steering_wheel_angle
-                new_snapshot['parking_brake_status'] = self.parking_brake_status
-                new_snapshot['engine_running'] = self.engine_running
-                new_snapshot['ignition_status'] = self.ignition_data
-                new_snapshot['brake_pedal_status'] = self.brake_pedal_status
-                new_snapshot['gear_lever_position'] = self.gear_lever
-                new_snapshot['manual_trans'] = self.manual_trans_status
+            # Store the latest user input...
+            new_snapshot['accelerator_pedal_position'] = self.accelerator
+            new_snapshot['brake'] = self.brake
+            new_snapshot['steering_wheel_angle'] = self.steering_wheel_angle
+            new_snapshot['parking_brake_status'] = self.parking_brake_status
+            new_snapshot['engine_running'] = self.engine_running
+            new_snapshot['ignition_status'] = self.ignition_data
+            new_snapshot['brake_pedal_status'] = self.brake_pedal_status
+            new_snapshot['gear_lever_position'] = self.gear_lever
+            new_snapshot['manual_trans'] = self.manual_trans_status
 
-                self.snapshot = new_snapshot
+            self.snapshot = new_snapshot
+
 # Properties  ---------------------
 
     @property
