@@ -147,6 +147,7 @@ class StateManager(object):
     @accelerator_pedal_position.setter
     def accelerator_pedal_position(self, value):
         self.dynamics_model.accelerator = value
+        self.dynamics_model.vehicle_speed = -1.0
 
     @property
     def parking_brake_status(self):
@@ -241,6 +242,22 @@ class StateManager(object):
     @longitude.setter
     def longitude(self, value):
         self.dynamics_model.longitude = value
+
+    @property
+    def vehicle_speed(self):
+        return self.dynamics_model.snapshot['vehicle_speed']
+
+    @vehicle_speed.setter
+    def vehicle_speed(self, value):
+        self.dynamics_model.vehicle_speed = value
+
+    @property
+    def heading(self):
+        return self.dynamics_model.snapshot['heading']
+
+    @heading.setter
+    def heading(self, value):
+        self.dynamics_model.heading = value
 
 # Sending Data ------------------
 

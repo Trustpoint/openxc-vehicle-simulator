@@ -103,6 +103,10 @@ def set_data():
           gState.upshift()
      elif name == "downshift":
           gState.downshift()
+     elif name == "vehicle_speed":
+          gState.vehicle_speed = float(request.form['value'])
+     elif name == "heading":
+          gState.heading = float(request.form['value'])
      else:
           print("Unsupported data received from UI: " + str(request.form))
 

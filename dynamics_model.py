@@ -187,6 +187,22 @@ class DynamicsModel(object):
             if data.name == 'longitude':
                 data.data = value
 
+    @vehicle_speed.setter
+    def vehicle_speed(self, value):
+        for data in self.calculations:
+            if data.name == 'vehicle_speed':
+                data.fixedData = value
+
+    @property
+    def heading(self):
+        return self.snapshot['heading']
+
+    @heading.setter
+    def heading(self, value):
+        for data in self.calculations:
+            if data.name == 'heading':
+                data.data = value
+
     def upshift(self):
         if self.manual_trans_status:
             for data in self.calculations:

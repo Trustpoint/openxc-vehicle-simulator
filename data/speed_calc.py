@@ -8,6 +8,7 @@ class SpeedCalc(DataCalc):
 
     def initialize_data(self):
         self.data = 0.0
+        self.fixedData = -1.0
         self.last_calc = datetime.now()
         self.name = 'vehicle_speed'
 
@@ -54,4 +55,7 @@ class SpeedCalc(DataCalc):
         if (impulse + speed ) < 0.0:    #Will result in backward motion
             impulse = -speed
 
-        self.data = speed + impulse
+        if self.fixedData < 0:
+            self.data = speed + impulse
+        else:
+            self.data = self.fixedData
