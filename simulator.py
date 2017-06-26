@@ -37,14 +37,14 @@ def stop():
      session['updates_paused'] = True
      global gState
      gState.pause()
-     return redirect(url_for('vehicle_data'))
+     return _make_status_response(200)
 
 @app.route('/single', methods=['POST'])
 def single():
      #make a global socket
      global gState
      gState.update_once()
-     return redirect(url_for('vehicle_data'))
+     return _make_status_response(200)
 
 @app.route('/start', methods=['POST'])
 def start():
@@ -52,7 +52,7 @@ def start():
      session.pop('updates_paused', None)
      global gState
      gState.resume()
-     return redirect(url_for('vehicle_data'))
+     return _make_status_response(200)
 
 @app.route('/custom-message', methods=['POST'])
 def send_custom_message():
@@ -64,7 +64,7 @@ def send_custom_message():
      session['custom_message_value'] = value
      session['custom_message_event'] = event
      gState.send_callback(name, value, event)
-     return redirect(url_for('vehicle_data'))
+     return _make_status_response(200)
 
 @app.route('/_set_data', methods=['POST'])
 def set_data():
