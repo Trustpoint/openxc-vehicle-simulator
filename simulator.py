@@ -7,6 +7,7 @@ from flask import Flask, request, session, redirect, url_for, \
         render_template, make_response
 from contextlib import closing
 import state_manager
+import sys
 
 # configuration
 DEBUG = True
@@ -128,7 +129,7 @@ if __name__ == '__main__':
      global gState
      gState = state_manager.StateManager()
 
-     flask_port = 50000
+     flask_port = int(sys.argv[1]) if len(sys.argv) > 1 else 50000
 
      print('For the UI, navigate a browser to localhost:' + str(flask_port))
      app.run(use_reloader=False, host='0.0.0.0', port=flask_port)
